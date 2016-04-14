@@ -1,7 +1,36 @@
 from car import Car
-
+from road import Road
 
 test_car = Car()
+test_road = Road()
+
+
+def test_init_length():
+    assert test_road.length == 1000
+    assert test_road.number_of_cars == 5
+    assert test_road.set_of_cars == []
+
+
+def test_place_cars_length():
+    test_road.place_cars()
+    assert len(test_road.set_of_cars) == 5
+
+
+def test_place_cars_type():
+    test_road.place_cars()
+    assert isinstance(test_road.set_of_cars[0], Car)
+
+
+def test_place_cars_positioning():
+    test_road.place_cars()
+    assert test_road.set_of_cars[0].bumper == 0
+    assert test_road.set_of_cars[1].bumper == int(round(1000/5))
+    assert test_road.set_of_cars[4].bumper == int(4*round(1000/5))
+
+
+"""
+CAR TESTS BELOW THESE WORDS
+"""
 
 
 def test_car_is_5m_long():
