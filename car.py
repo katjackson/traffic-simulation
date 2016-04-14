@@ -16,7 +16,7 @@ class Car:
 
     def choose_speed_change(self, other):
 
-        follow_distance = self.get_follow_distance(self, other)
+        follow_distance = self.get_follow_distance(other)
 
         if self.speed - follow_distance == 0:
             if other.speed < self.speed:
@@ -48,6 +48,7 @@ class Car:
 
     def change_position(self):
         self.car_coordinates += self.speed
+        self.car_coordinates = self.car_coordinates % 1000
 
     def get_follow_distance(self, other):
         return other.bumper - self.car_coordinates[1]
