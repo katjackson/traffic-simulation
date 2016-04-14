@@ -14,11 +14,27 @@ class Car:
         self.car_coordinates = np.array([self.bumper,
                                         self.bumper + self.car_length])
 
-    def choose_speed_change(self):
-        if random.random() < .1:
+    def choose_speed_change(self, other):
+
+        follow_distance = self.get_follow_distance(self, other)
+
+        if self.speed - follow_distance == 0:
+            if other.speed < self.speed:
+                self.deccelerate()
+            elif other.speed > self.speed:
+                self.accelerate()
+
+        elif self.speed - follow_distance > 2:
+            self.speed = 0
+
+        elif 0 < self.speed - follow_distance <= 2:
             self.deccelerate()
+
         else:
-            self.accelerate()
+            if random.random() < .1:
+                self.deccelerate()
+            else:
+                self.accelerate()
 
     def accelerate(self):
         self.speed += 2
@@ -32,3 +48,6 @@ class Car:
 
     def change_position(self):
         self.car_coordinates += self.speed
+
+    def get_follow_distance(self, other):
+        return other.bumper - self.car_coordinates[1]
