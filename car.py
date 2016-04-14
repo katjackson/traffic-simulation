@@ -31,7 +31,7 @@ class Car:
             self.deccelerate()
 
         else:
-            if random.random() < .1:
+            if False:
                 self.deccelerate()
             else:
                 self.accelerate()

@@ -135,3 +135,12 @@ def test_choose_speed_steady_fast():
     test_car_two.speed = 12
     test_car.choose_speed_change(test_car_two)
     assert test_car.speed == 12
+
+
+def test_choose_speed_help():
+    test_car = Car(0)
+    test_car.speed = 0
+    test_car_two = Car(33)
+    test_car_two.speed = 0
+    test_car.choose_speed_change(test_car_two)
+    assert test_car.speed == 2
