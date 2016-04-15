@@ -33,4 +33,6 @@ class Road():
                 if _ > 28:
                     speed_data.append(car.speed)
 
+                temp_position_data.append(car.car_coordinates)
+            total_position_data.append(temp_position_data)
         return speed_data, total_position_data
