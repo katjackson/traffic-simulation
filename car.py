@@ -49,7 +49,10 @@ class Car:
 
     def change_position(self):
         self.car_coordinates += self.speed
-        self.car_coordinates = self.car_coordinates % 1000
+
+    def check_endpoints(self):
+        self.car_coordinates[0] = self.car_coordinates[0] % 1000
+        self.car_coordinates[1] = self.car_coordinates[1] % 1000
 
     def get_follow_distance(self, other):
         if other.car_coordinates[0] - self.car_coordinates[1] < 0:
