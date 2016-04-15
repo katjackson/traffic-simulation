@@ -30,7 +30,9 @@ class Car:
             self.speed = 0
 
         else:
-            if random.random() < 0.1:
+            if self.get_follow_distance(other) <= 2:
+                self.speed = 0
+            elif random.random() < 0.1:
                 self.deccelerate()
             else:
                 self.accelerate()

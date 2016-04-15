@@ -28,9 +28,9 @@ def test_place_cars_type():
 
 def test_place_cars_positioning():
     test_road.place_cars()
-    assert test_road.set_of_cars[0].bumper == 0
-    assert test_road.set_of_cars[1].bumper == int(round(1000/5))
-    assert test_road.set_of_cars[4].bumper == int(4*round(1000/5))
+    assert test_road.set_of_cars[0].car_coordinates[0] == 0
+    assert test_road.set_of_cars[1].car_coordinates[0] == int(round(1000/5))
+    assert test_road.set_of_cars[4].car_coordinates[0] == int(4*round(1000/5))
 
 
 """
@@ -49,13 +49,13 @@ def test_coordinates():
 
 
 def test_set_max_speed():
-    assert test_car.max_speed == 100/3
+    assert test_car.max_speed == int(round(100/3))
 
 
 def test_accelerate_max():
     test_car.speed = 100/3 - 1
     test_car.accelerate()
-    assert test_car.speed == 100/3
+    assert test_car.speed == int(round(100/3))
 
 
 def test_accelerate():
@@ -140,12 +140,3 @@ def test_choose_speed_steady_fast():
     test_car_two.speed = 12
     test_car.choose_speed_change(test_car_two)
     assert test_car.speed == 12
-
-
-def test_choose_speed_help():
-    test_car = Car(0)
-    test_car.speed = 0
-    test_car_two = Car(33)
-    test_car_two.speed = 0
-    test_car.choose_speed_change(test_car_two)
-    assert test_car.speed == 2

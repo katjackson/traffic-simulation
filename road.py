@@ -1,6 +1,7 @@
-import numpy as np
-import statistics as st
+# import numpy as np
+# import statistics as st
 from car import Car
+
 
 class Road():
 
@@ -13,7 +14,6 @@ class Road():
         interval = round(self.length / (self.number_of_cars))
         for number in range(self.number_of_cars):
             self.set_of_cars.append(Car(number * interval))
-
 
     def simulate_n_seconds(self, n):
         speed_data = []
