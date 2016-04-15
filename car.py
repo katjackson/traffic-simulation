@@ -1,4 +1,4 @@
-# import random
+import random
 import numpy as np
 
 
@@ -15,22 +15,22 @@ class Car:
 
     def choose_speed_change(self, other):
 
-        follow_distance = self.get_follow_distance(other)
+        collison_range = self.speed - self.get_follow_distance(other)
 
-        if self.speed - follow_distance == 0:
-            if other.speed < self.speed:
+        if collison_range == 0:
+            if self.speed > other.speed:
                 self.deccelerate()
-            elif other.speed > self.speed:
+            elif self.speed < other.speed:
                 self.accelerate()
 
-        elif self.speed - follow_distance > 2:
-            self.speed = 0
-
-        elif 0 < self.speed - follow_distance <= 2:
+        elif 0 < collison_range <= 2:
             self.deccelerate()
 
+        elif collison_range > 2:
+            self.speed = 0
+
         else:
-            if False:
+            if random.random() < 0.1:
                 self.deccelerate()
             else:
                 self.accelerate()
@@ -51,5 +51,6 @@ class Car:
 
     def get_follow_distance(self, other):
         if other.car_coordinates[0] - self.car_coordinates[1] < 0:
-            return 1000 + other.car_coordinates[0] - self.car_coordinates[1]
+            return (1000 +
+                    other.car_coordinates[0] - self.car_coordinates[1])
         return other.car_coordinates[0] - self.car_coordinates[1]

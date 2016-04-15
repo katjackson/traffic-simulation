@@ -5,6 +5,11 @@ test_car = Car()
 test_road = Road()
 
 
+"""
+ROAD CLASS TESTS BELOW
+"""
+
+
 def test_init_length():
     assert test_road.length == 1000
     assert test_road.number_of_cars == 5
@@ -29,7 +34,7 @@ def test_place_cars_positioning():
 
 
 """
-CAR TESTS BELOW THESE WORDS
+CAR CLASS TESTS BELOW
 """
 
 
