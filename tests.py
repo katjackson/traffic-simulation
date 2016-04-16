@@ -27,9 +27,9 @@ def test_place_cars_type():
 
 def test_place_cars_positioning():
     test_road.place_cars()
-    assert test_road.set_of_cars[0].car_coordinates[0] == 0
-    assert test_road.set_of_cars[1].car_coordinates[0] == int(round(1000/5))
-    assert test_road.set_of_cars[4].car_coordinates[0] == int(4*round(1000/5))
+    assert test_road.set_of_cars[4].car_coordinates[0] == 0
+    # assert test_road.set_of_cars[1].car_coordinates[0] == int(round(1000/5))
+    # assert test_road.set_of_cars[4].car_coordinates[0] == int(4*round(1000/5))
 
 
 """
@@ -45,7 +45,7 @@ def test_coordinates():
     test_car_2 = Car(3)
     print(test_car_2.car_coordinates)
     assert test_car_2.car_coordinates[0] == 3
-    assert test_car_2.car_coordinates[1] == 7
+    assert test_car_2.car_coordinates[-1] == 7
 
 
 def test_set_max_speed():
@@ -80,7 +80,7 @@ def test_move_car():
     test_car.speed = 2
     test_car.change_position()
     assert test_car.car_coordinates[0] == 2
-    assert test_car.car_coordinates[1] == 6
+    assert test_car.car_coordinates[-1] == 6
 
 
 def test_move_car_end_of_track():
@@ -88,7 +88,7 @@ def test_move_car_end_of_track():
     test_car.speed = 30
     test_car.change_position()
     assert test_car.car_coordinates[0] == 20
-    assert test_car.car_coordinates[1] == 24
+    assert test_car.car_coordinates[-1] == 24
 
 
 def test_follow_distance():
@@ -102,6 +102,15 @@ def test_choose_speed_braaaaake():
     test_car.speed = 10
     test_car_two = Car(10)
     test_car_two.speed = 6
+    test_car.set_new_speed(test_car_two, test_road)
+    assert test_car.speed == 0
+
+
+def test_choose_speed_stop_please():
+    test_car = Car(75)
+    test_car.speed = 12
+    test_car_two = Car(80)
+    test_car_two.speed = 2
     test_car.set_new_speed(test_car_two, test_road)
     assert test_car.speed == 0
 

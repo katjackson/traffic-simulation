@@ -12,7 +12,7 @@ class Road():
 
     def place_cars(self):
         interval = round(self.length / (self.number_of_cars))
-        for number in range(self.number_of_cars):
+        for number in list(range(self.number_of_cars))[::-1]:
             self.set_of_cars.append(Car(number * interval))
 
     def adjust_driver_behavior(self, car, other):
@@ -33,7 +33,7 @@ class Road():
 
             for index, car in enumerate(self.set_of_cars):
                 if index == 29:
-                    index = 0
+                    index = -1
 
                 car.set_new_speed(self.set_of_cars[index+1], self)
                 car.change_position()
@@ -55,19 +55,22 @@ class Car:
         self.acceleration = 2  # meters/second^2
         self.deceleration = 2  # meters/second^2
         self.speed = 0  # meters/second
-        self.car_coordinates = [bumper, bumper + self.car_length - 1]
+        self.car_coordinates = list(range(bumper, bumper + self.car_length))
 
     def set_new_speed(self, other, road):
         tailing_distance_left = (
             self.get_space_available(other) - self.speed)
 
-        if tailing_distance_left > 0:
-            # random accel/decel
-            road.adjust_driver_behavior(self, other)
-
-        elif tailing_distance_left == 0:
+        if tailing_distance_left == 0:
             # match speed
             self.drive_tail_other(other)
+
+        elif 2 > tailing_distance_left > 0:
+            
+
+        elif tailing_distance_left > 2:
+            # random accel/decel
+            road.adjust_driver_behavior(self, other)
 
         elif tailing_distance_left >= -2:
             # too close, must brake
@@ -96,15 +99,14 @@ class Car:
             self.speed = 0
 
     def change_position(self):
-        self.car_coordinates[0] += self.speed
-        self.car_coordinates[1] += self.speed
-
-        if self.car_coordinates[0] >= 1000:
-            self.car_coordinates[0] -= 1000
-        if self.car_coordinates[1] >= 1000:
-            self.car_coordinates[1] -= 1000
+        for i in range(len(self.car_coordinates)):
+            self.car_coordinates[i] += self.speed
+            if self.car_coordinates[i] >= 1000:
+                self.car_coordinates[i] -= 1000
 
     def get_space_available(self, other):
-        if other.car_coordinates[0] - self.car_coordinates[1] < 0:
-            return (1000 + other.car_coordinates[0] - self.car_coordinates[1])
-        return other.car_coordinates[0] - self.car_coordinates[1]
+
+        if other.car_coordinates[0] - self.car_coordinates[-1] < 0:
+            return (1000 + other.car_coordinates[0] - self.car_coordinates[-1])
+
+        return other.car_coordinates[0] - self.car_coordinates[-1]
