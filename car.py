@@ -33,7 +33,7 @@ class Car:
 
     def drive_plenty_of_room(self, other):
         # ensure that car didn't somehow collide with other
-        if self.get_follow_distance(other) <= 2:
+        if self.get_space_available(other) <= 2:
             self.speed = 0
         elif random.random() < 0.1:
             self.decelerate()
@@ -53,7 +53,7 @@ class Car:
         if self.speed > self.max_speed:
             self.speed = self.max_speed
 
-    def deccelerate(self):
+    def decelerate(self):
         self.speed -= self.deceleration
         if self.speed < 0:
             self.speed = 0

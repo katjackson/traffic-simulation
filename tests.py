@@ -44,8 +44,9 @@ def test_car_is_5m_long():
 
 def test_coordinates():
     test_car_2 = Car(3)
+    print(test_car_2.car_coordinates)
     assert test_car_2.car_coordinates[0] == 3
-    assert test_car_2.car_coordinates[1] == 8
+    assert test_car_2.car_coordinates[1] == 7
 
 
 def test_set_max_speed():
@@ -64,15 +65,15 @@ def test_accelerate():
     assert test_car.speed == 7
 
 
-def test_deccelerate():
+def test_decelerate():
     test_car.speed = 5
-    test_car.deccelerate()
+    test_car.decelerate()
     assert test_car.speed == 3
 
 
-def test_deccelerate_min():
+def test_decelerate_min():
     test_car.speed = 1
-    test_car.deccelerate()
+    test_car.decelerate()
     assert test_car.speed == 0
 
 
@@ -80,7 +81,7 @@ def test_move_car():
     test_car.speed = 2
     test_car.change_position()
     assert test_car.car_coordinates[0] == 2
-    assert test_car.car_coordinates[1] == 7
+    assert test_car.car_coordinates[1] == 6
 
 
 def test_move_car_end_of_track():
@@ -88,13 +89,13 @@ def test_move_car_end_of_track():
     test_car.speed = 30
     test_car.change_position()
     assert test_car.car_coordinates[0] == 20
-    assert test_car.car_coordinates[1] == 25
+    assert test_car.car_coordinates[1] == 24
 
 
 def test_follow_distance():
     test_car = Car()
     test_car_two = Car(10)
-    assert test_car.get_follow_distance(test_car_two) == 5
+    assert test_car.get_space_available(test_car_two) == 6
 
 
 def test_choose_speed_braaaaake():
@@ -102,7 +103,7 @@ def test_choose_speed_braaaaake():
     test_car.speed = 10
     test_car_two = Car(10)
     test_car_two.speed = 6
-    test_car.choose_speed_change(test_car_two)
+    test_car.set_new_speed(test_car_two)
     assert test_car.speed == 0
 
 
@@ -111,25 +112,25 @@ def test_choose_speed_slow():
     test_car.speed = 10
     test_car_two = Car(14)
     test_car_two.speed = 6
-    test_car.choose_speed_change(test_car_two)
+    test_car.set_new_speed(test_car_two)
     assert test_car.speed == 8
 
 
 def test_choose_speed_steady():
     test_car = Car()
     test_car.speed = 10
-    test_car_two = Car(15)
+    test_car_two = Car(14)
     test_car_two.speed = 10
-    test_car.choose_speed_change(test_car_two)
+    test_car.set_new_speed(test_car_two)
     assert test_car.speed == 10
 
 
 def test_choose_speed_steady_slow():
     test_car = Car()
     test_car.speed = 10
-    test_car_two = Car(15)
+    test_car_two = Car(14)
     test_car_two.speed = 8
-    test_car.choose_speed_change(test_car_two)
+    test_car.set_new_speed(test_car_two)
     assert test_car.speed == 8
 
 
@@ -138,5 +139,5 @@ def test_choose_speed_steady_fast():
     test_car.speed = 10
     test_car_two = Car(15)
     test_car_two.speed = 12
-    test_car.choose_speed_change(test_car_two)
+    test_car.set_new_speed(test_car_two)
     assert test_car.speed == 12

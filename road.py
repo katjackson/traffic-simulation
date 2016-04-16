@@ -5,7 +5,7 @@ from car import Car
 
 class Road():
 
-    def __init__(self, length_of_road=1000, number_of_cars=30):
+    def __init__(self, length_of_road=1000, number_of_cars=5):
         self.number_of_cars = int(number_of_cars)
         self.length = int(length_of_road)
         self.set_of_cars = []
