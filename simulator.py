@@ -1,6 +1,5 @@
 import numpy as np
-from road import Road
-
+from car import Road
 
 def main():
 
@@ -9,7 +8,7 @@ def main():
 
     speed_limits = []
     positions_list = []
-    iteration_number = 500
+    iteration_number = 2
     for _ in range(iteration_number):
         speeds, positions = road.simulate_n_seconds(60)
 
@@ -19,8 +18,9 @@ def main():
         if _ > iteration_number - 3:
             positions_list.append(positions)
 
-    # print(positions_list)
-    # print(int(np.mean(speed_limits)))
+    for iteration in positions_list:
+        print(iteration)
+    print(int(np.mean(speed_limits)))
     return int(np.mean(speed_limits))
 
 

@@ -1,5 +1,4 @@
-from car import Car
-from road import Road
+from car import Road, Car
 
 test_car = Car()
 test_road = Road()
@@ -103,7 +102,7 @@ def test_choose_speed_braaaaake():
     test_car.speed = 10
     test_car_two = Car(10)
     test_car_two.speed = 6
-    test_car.set_new_speed(test_car_two)
+    test_car.set_new_speed(test_car_two, test_road)
     assert test_car.speed == 0
 
 
@@ -112,7 +111,7 @@ def test_choose_speed_slow():
     test_car.speed = 10
     test_car_two = Car(14)
     test_car_two.speed = 6
-    test_car.set_new_speed(test_car_two)
+    test_car.set_new_speed(test_car_two, test_road)
     assert test_car.speed == 8
 
 
@@ -121,7 +120,7 @@ def test_choose_speed_steady():
     test_car.speed = 10
     test_car_two = Car(14)
     test_car_two.speed = 10
-    test_car.set_new_speed(test_car_two)
+    test_car.set_new_speed(test_car_two, test_road)
     assert test_car.speed == 10
 
 
@@ -130,14 +129,22 @@ def test_choose_speed_steady_slow():
     test_car.speed = 10
     test_car_two = Car(14)
     test_car_two.speed = 8
-    test_car.set_new_speed(test_car_two)
+    test_car.set_new_speed(test_car_two, test_road)
     assert test_car.speed == 8
 
 
 def test_choose_speed_steady_fast():
     test_car = Car()
     test_car.speed = 10
-    test_car_two = Car(15)
+    test_car_two = Car(14)
     test_car_two.speed = 12
-    test_car.set_new_speed(test_car_two)
+    test_car.set_new_speed(test_car_two, test_road)
     assert test_car.speed == 12
+
+
+def test_road_curve():
+    test_car = Car()
+    test_car.speed = 8
+    test_car_two = Car(20)
+    test_car.set_new_speed(test_car_two, test_road)
+    assert test_car.speed == 10

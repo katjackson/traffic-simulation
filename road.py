@@ -1,38 +1,48 @@
-# import numpy as np
-# import statistics as st
-from car import Car
-
-
-class Road():
-
-    def __init__(self, length_of_road=1000, number_of_cars=5):
-        self.number_of_cars = int(number_of_cars)
-        self.length = int(length_of_road)
-        self.set_of_cars = []
-
-    def place_cars(self):
-        interval = round(self.length / (self.number_of_cars))
-        for number in range(self.number_of_cars):
-            self.set_of_cars.append(Car(number * interval))
-
-    def simulate_n_seconds(self, n):
-        speed_data = []
-        total_position_data = []
-
-        for _ in range(n):
-            temp_position_data = []
-
-            for index, car in enumerate(self.set_of_cars):
-                if index == 29:
-                    index = 0
-
-                car.choose_speed_change(self.set_of_cars[index+1])
-                car.change_position()
-
-                if _ > 28:
-                    speed_data.append(car.speed)
-
-                temp_position_data.append(car.car_coordinates)
-
-            total_position_data.append(temp_position_data)
-        return speed_data, total_position_data
+# import random
+# from car import Car
+#
+#
+# class Road():
+#
+#     def __init__(self, length_of_road=1000,
+#                  number_of_cars=5, slow_percentage=.1):
+#         self.number_of_cars = int(number_of_cars)
+#         self.length = int(length_of_road)
+#         self.set_of_cars = []
+#         self.drive_var = slow_percentage
+#
+#     def place_cars(self):
+#         interval = round(self.length / (self.number_of_cars))
+#         for number in range(self.number_of_cars):
+#             self.set_of_cars.append(Car(number * interval))
+#
+#     def adjust_driver_behavior(self, car, other):
+#         # ensure that car didn't somehow collide with other
+#         if car.get_space_available(other) <= 2:
+#             car.speed = 0
+#         elif random.random() < self.drive_var:
+#             car.decelerate()
+#         else:
+#             car.accelerate()
+#
+#     def simulate_n_seconds(self, n):
+#         speed_data = []
+#         total_position_data = []
+#
+#         for _ in range(n):
+#             temp_position_data = []
+#
+#             for index, car in enumerate(self.set_of_cars):
+#                 if index == 29:
+#                     index = 0
+#
+#                 car.choose_speed_change(self.set_of_cars[index+1])
+#                 car.change_position()
+#
+#                 if _ > 28:
+#                     speed_data.append(car.speed)
+#
+#                 temp_position_data.append(car.car_coordinates)
+#
+#             total_position_data.append(temp_position_data)
+#         return speed_data, total_position_data
