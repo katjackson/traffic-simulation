@@ -17,10 +17,11 @@ class Road:
 
     def check_position(self, car, other):
         # STILL NEEDS FIXING
-        gap = other.car_coordinates[0] - car.car_coordinates[-1]
-        if (gap <= 0) or (gap > self.length_of_road-car.vehicle_size):
-            car.car_coordinates = car.car_coordinates + (
-                car.car_coordinates[-1] - (other.car_coordinates[0] + 1))
+        if (car.car_coordinates[-1] in
+            list(range(other.car_coordinates[0],
+                       other.car_coordinates[0]+car.speed+1))):
+            car.car_coordinates = car.car_coordinates - (
+                car.car_coordinates[-1] - other.car_coordinates[0] + 1)
             car.speed = 0
 
     def check_end_of_lap(self, car):
@@ -28,7 +29,7 @@ class Road:
                                self.length)
 
     def set_tail_distance(self, car, other):
-        if car.car_coordinates[-1] > other.car_coordinates[0]:
+        if car.car_coordinates[-1] >= other.car_coordinates[0]:
             return ((self.length + other.car_coordinates[0]) -
                     (car.car_coordinates[-1] + car.speed))
         return (other.car_coordinates[0] -
@@ -39,20 +40,23 @@ class Road:
         position_data = []
 
         for _ in range(n):
-            for index, car in enumerate(self.set_of_cars):
-                if index == len(self.set_of_cars) - 1:
-                    index = -1
+            temp_list = []
 
-                td = self.set_tail_distance(car, self.set_of_cars[index+1])
-                car.set_new_speed(self.set_of_cars[index+1], td)
+            for index, car in enumerate(self.set_of_cars):
+
+                td = self.set_tail_distance(car, self.set_of_cars[index-1])
+                car.set_new_speed(self.set_of_cars[index-1], td)
                 car.change_position()
+                self.check_position(car, self.set_of_cars[index-1])
                 self.check_end_of_lap(car)
-                self.check_position(car, self.set_of_cars[index+1])
-                self.check_end_of_lap(car)
+                if index == 2:
+                    print(index, car.car_coordinates, car.speed)
 
                 if _ > n/2:
                     speed_data.append(car.speed)
 
-                position_data.append(car.car_coordinates)
+                temp_list.append(car.car_coordinates)
+
+            position_data.append(temp_list)
 
         return speed_data, position_data

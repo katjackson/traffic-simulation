@@ -4,7 +4,7 @@ from road import Road
 
 def main():
     road = Road(number_of_cars=30)
-    number_of_runs = 2
+    number_of_runs = 100
     seconds_in_run = 60
 
     road.place_cars()
@@ -18,7 +18,7 @@ def main():
         speed_limit_list.append(np.mean(speeds) + np.std(speeds))
 
         if _ == number_of_runs - 1:
-            positions_list.append(positions)
+            positions_list = positions
             speeds_list.append(speeds)
 
     return int(np.mean(speed_limit_list)), positions_list, speeds_list

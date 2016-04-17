@@ -22,7 +22,7 @@ class Car:
         if tail_distance == 0:  # match speed
             self.drive_tail_other(other)
         elif tail_distance > 0:  # random accel/decel
-            self.drive_random(other)
+            self.drive_random()
         else:
             self.decelerate()  # must slow
 
@@ -33,7 +33,7 @@ class Car:
         elif self.speed < other.speed:
             self.accelerate()
 
-    def drive_random(self, other):
+    def drive_random(self):
         # ensure that car didn't somehow collide with other
         if random.random() < self.slow_chance:
             self.decelerate()
