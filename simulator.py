@@ -17,8 +17,8 @@ def main():
 
         speed_limit_list.append(np.mean(speeds) + np.std(speeds))
 
-        if _ == number_of_runs - 1:
-            positions_list = positions
+        if _ in {0, 10, 35, 75, 99}:
+            positions_list.append(positions[:])
             speeds_list.append(speeds)
 
     return int(np.mean(speed_limit_list)), positions_list, speeds_list

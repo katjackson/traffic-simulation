@@ -49,8 +49,6 @@ class Road:
                 car.change_position()
                 self.check_position(car, self.set_of_cars[index-1])
                 self.check_end_of_lap(car)
-                if index == 2:
-                    print(index, car.car_coordinates, car.speed)
 
                 if _ > n/2:
                     speed_data.append(car.speed)
