@@ -15,27 +15,16 @@ class Car:
                 *range(rear_coordinate, rear_coordinate +
                                         self.vehicle_size)])
 
-    def check_position(self, other):
-        if self.car_coordinates[-1] > other.car_coordinates[0]:
-            self.car_coordinates = (
-                self.car_coordinates[-1] - (other.car_coordinates[0] + 1))
-            self.speed = 0
+    def change_position(self):
+        self.car_coordinates += self.speed
 
-    def set_new_speed(self, other):
-        tail_distance = self.get_tail_distance(other)
+    def set_new_speed(self, other, tail_distance):
         if tail_distance == 0:  # match speed
             self.drive_tail_other(other)
         elif tail_distance > 0:  # random accel/decel
             self.drive_random(other)
         else:
             self.decelerate()  # must slow
-
-    def get_tail_distance(self, other):
-        if self.car_coordinates[-1] > other.car_coordinates[0]:
-            return ((1000 + other.car_coordinates[0]) -
-                    (self.car_coordinates[-1] + self.speed))
-        return (other.car_coordinates[0] -
-                (self.car_coordinates[-1] + self.speed))
 
     def drive_tail_other(self, other):
         # go the same speed as the car in front
