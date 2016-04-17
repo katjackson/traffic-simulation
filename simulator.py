@@ -1,28 +1,27 @@
 import numpy as np
-from car import Road
+from road import Road
+
 
 def main():
-
     road = Road(number_of_cars=30)
+    number_of_runs = 2
+    seconds_in_run = 60
+
     road.place_cars()
-
-    speed_limits = []
+    speed_limit_list = []
     positions_list = []
-    iteration_number = 2
-    for _ in range(iteration_number):
-        speeds, positions = road.simulate_n_seconds(60)
+    speeds_list = []
 
-        speed_limit = np.mean(speeds) + np.std(speeds)
-        speed_limits.append(speed_limit)
+    for _ in range(number_of_runs):
+        speeds, positions = road.simulate_n_seconds(seconds_in_run)
 
-        if _ > iteration_number - 3:
+        speed_limit_list.append(np.mean(speeds) + np.std(speeds))
+
+        if _ == number_of_runs - 1:
             positions_list.append(positions)
+            speeds_list.append(speeds)
 
-    for iteration in positions_list:
-        print(iteration)
-    print(int(np.mean(speed_limits)))
-    return int(np.mean(speed_limits))
-
+    return int(np.mean(speed_limit_list)), positions_list, speeds_list
 
 if __name__ == '__main__':
     main()

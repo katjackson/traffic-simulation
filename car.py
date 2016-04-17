@@ -1,112 +1,62 @@
+# from road import Road
 import random
-
-
-class Road():
-
-    def __init__(self, length_of_road=1000,
-                 number_of_cars=5, slow_percentage=.1):
-        self.number_of_cars = int(number_of_cars)
-        self.length = int(length_of_road)
-        self.set_of_cars = []
-        self.drive_var = slow_percentage
-
-    def place_cars(self):
-        interval = round(self.length / (self.number_of_cars))
-        for number in list(range(self.number_of_cars))[::-1]:
-            self.set_of_cars.append(Car(number * interval))
-
-    def adjust_driver_behavior(self, car, other):
-        # ensure that car didn't somehow collide with other
-        if car.get_space_available(other) <= 2:
-            car.speed = 0
-        elif random.random() < self.drive_var:
-            car.decelerate()
-        else:
-            car.accelerate()
-
-    def simulate_n_seconds(self, n):
-        speed_data = []
-        total_position_data = []
-
-        for _ in range(n):
-            temp_position_data = []
-
-            for index, car in enumerate(self.set_of_cars):
-                if index == 29:
-                    index = -1
-
-                car.set_new_speed(self.set_of_cars[index+1], self)
-                car.change_position()
-
-                if _ > 28:
-                    speed_data.append(car.speed)
-
-                temp_position_data.append(car.car_coordinates)
-
-            total_position_data.append(temp_position_data)
-        return speed_data, total_position_data
+import numpy as np
 
 
 class Car:
 
-    def __init__(self, bumper=0):
-        self.max_speed = 33  # meters/second
-        self.car_length = 5  # meters
-        self.acceleration = 2  # meters/second^2
-        self.deceleration = 2  # meters/second^2
-        self.speed = 0  # meters/second
-        self.car_coordinates = list(range(bumper, bumper + self.car_length))
+    def __init__(self, rear_coordinate=0):
+        self.acceleration = 2  # to change speed (can be up or down)
+        self.desired_speed = 33  # speed limit
+        self.vehicle_size = 5  # car length
+        self.speed = 0  # units to move the vehicle each turn
+        self.slow_chance = 0.1
+        self.car_coordinates = np.array([
+                *range(rear_coordinate, rear_coordinate +
+                                        self.vehicle_size)])
 
-    def set_new_speed(self, other, road):
-        tailing_distance_left = (
-            self.get_space_available(other) - self.speed)
-
-        if tailing_distance_left == 0:
-            # match speed
-            self.drive_tail_other(other)
-
-        elif 2 > tailing_distance_left > 0:
-            
-
-        elif tailing_distance_left > 2:
-            # random accel/decel
-            road.adjust_driver_behavior(self, other)
-
-        elif tailing_distance_left >= -2:
-            # too close, must brake
-            self.decelerate()
-
-        elif tailing_distance_left < -2:
-            # way too close and too fast, must stop
+    def check_position(self, other):
+        if self.car_coordinates[-1] > other.car_coordinates[0]:
+            self.car_coordinates = (
+                self.car_coordinates[-1] - (other.car_coordinates[0] + 1))
             self.speed = 0
+
+    def set_new_speed(self, other):
+        tail_distance = self.get_tail_distance(other)
+        if tail_distance == 0:  # match speed
+            self.drive_tail_other(other)
+        elif tail_distance > 0:  # random accel/decel
+            self.drive_random(other)
+        else:
+            self.decelerate()  # must slow
+
+    def get_tail_distance(self, other):
+        if self.car_coordinates[-1] > other.car_coordinates[0]:
+            return ((1000 + other.car_coordinates[0]) -
+                    (self.car_coordinates[-1] + self.speed))
+        return (other.car_coordinates[0] -
+                (self.car_coordinates[-1] + self.speed))
 
     def drive_tail_other(self, other):
         # go the same speed as the car in front
         if self.speed > other.speed:
             self.decelerate()
-
         elif self.speed < other.speed:
+            self.accelerate()
+
+    def drive_random(self, other):
+        # ensure that car didn't somehow collide with other
+        if random.random() < self.slow_chance:
+            self.decelerate()
+        else:
             self.accelerate()
 
     def accelerate(self):
         self.speed += self.acceleration
-        if self.speed > self.max_speed:
-            self.speed = self.max_speed
+        if self.speed > self.desired_speed:
+            self.speed = self.desired_speed
 
     def decelerate(self):
-        self.speed -= self.deceleration
+        self.speed -= self.acceleration
         if self.speed < 0:
             self.speed = 0
-
-    def change_position(self):
-        for i in range(len(self.car_coordinates)):
-            self.car_coordinates[i] += self.speed
-            if self.car_coordinates[i] >= 1000:
-                self.car_coordinates[i] -= 1000
-
-    def get_space_available(self, other):
-
-        if other.car_coordinates[0] - self.car_coordinates[-1] < 0:
-            return (1000 + other.car_coordinates[0] - self.car_coordinates[-1])
-
-        return other.car_coordinates[0] - self.car_coordinates[-1]
