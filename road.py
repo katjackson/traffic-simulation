@@ -50,8 +50,7 @@ class Road:
                 self.check_position(car, self.set_of_cars[index-1])
                 self.check_end_of_lap(car)
 
-                if _ > n/2:
-                    speed_data.append(car.speed)
+                speed_data.append(car.speed)
 
                 temp_list.append(car.car_coordinates)
 

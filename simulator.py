@@ -11,17 +11,24 @@ def main():
     speed_limit_list = []
     positions_list = []
     speeds_list = []
+    mean_speeds = []
+    st_devs = []
 
     for _ in range(number_of_runs):
         speeds, positions = road.simulate_n_seconds(seconds_in_run)
 
-        speed_limit_list.append(np.mean(speeds) + np.std(speeds))
+        mean = np.mean(speeds)
+        stdv = np.std(speeds)
+        speed_limit_list.append(mean + stdv)
+        mean_speeds.append(mean)
+        st_devs.append(stdv)
 
-        if _ in {0, 10, 35, 75, 99}:
+        if _ in {0, 9, 34, 74, 99}:
             positions_list.append(positions[:])
             speeds_list.append(speeds)
 
-    return int(np.mean(speed_limit_list)), positions_list, speeds_list
+    return (int(np.mean(speed_limit_list)), positions_list, speeds_list,
+            mean_speeds, st_devs)
 
 if __name__ == '__main__':
     main()
