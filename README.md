@@ -24,7 +24,7 @@ The simulation files may be found on GitHub at:
 ## Requirements
 ## ------------
 
-This module requires importing numpy and matplotlib, as well as the random default class. The graphs in the Jupyter notebook were also created using the seaborn module.
+This module requires importing numpy and matplotlib, as well as the random default class. The graphs in the Jupyter notebook were also created using the seaborn module. See requirements.txt for a full list of modules used in the running of this program.
 
 The simulator module has no external dependancies.
 
