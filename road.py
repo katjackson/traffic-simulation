@@ -35,6 +35,16 @@ class Road:
         return (other.car_coordinates[0] -
                 (car.car_coordinates[-1] + car.speed))
 
+    # def simulate_longer_road(self, length_muliple, n):
+    #     long_speed_data = []
+    #     long_position_data = []
+    #     for _ in length_muliple:
+    #         if _ % 2 == 1:
+    #
+    #         temp1, temp2 = self.simulate_n_seconds(n)
+    #         long_speed_data.append(temp1)
+    #         long_position_data.append(temp2)
+
     def simulate_n_seconds(self, n):
         speed_data = []
         position_data = []
