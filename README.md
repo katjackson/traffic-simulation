@@ -1,5 +1,7 @@
 # Traffic Simulator
 
+![Traffic Simulation Graph](https://raw.githubusercontent.com/katjackson/traffic-simulation/master/traffic.png)
+
 
 ## Introduction
 ## ------------
